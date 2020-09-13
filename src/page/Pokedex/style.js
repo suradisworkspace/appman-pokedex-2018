@@ -3,7 +3,6 @@ import { css } from "emotion";
 const styles = {
   container: css`
     display: flex;
-    background: green;
     position: absolute;
     top: 0;
     left: 0;
@@ -20,8 +19,22 @@ const styles = {
     }
   `,
   content: css`
-    background: blue;
+    display: flex;
     flex: 1;
+    overflow: auto;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 16px;
+    padding-bottom: 75px;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    &::after {
+      height: 0;
+      width: 45%;
+      margin: 8px;
+      content: "";
+    }
   `,
   footer: css`
     height: 100px;
@@ -126,6 +139,30 @@ const styles = {
   `,
   searchAddContainer: css`
     width: 200px;
+    text-align: right;
+    h2 {
+      line-height: 0;
+      cursor: pointer;
+      color: #dc7777;
+      display: none;
+    }
+  `,
+  myCardContainer: css`
+    display: flex;
+    width: 45%;
+    height: 216px;
+    flex-direction: row;
+    background: #f3f4f7;
+    margin: 8px;
+    padding: 8px;
+    &:hover {
+      h2 {
+        display: block;
+      }
+    }
+  `,
+  xContainer: css`
+    width: 50px;
     text-align: right;
     h2 {
       line-height: 0;

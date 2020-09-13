@@ -31,7 +31,6 @@ const statCal = (card) => {
 };
 
 const Pokedex = (props) => {
-  console.log("props :>> ", props);
   const inputRef = useRef(null);
   const [isShowModal, setIsShowModal] = useState(false);
   const [searchPokedex, setSearchPokedex] = useState([]);
@@ -53,16 +52,46 @@ const Pokedex = (props) => {
     setSearchPokedex(newList);
   };
 
+  const onRemoveCard = (card) => () => {
+    props.removeCard(card);
+  };
+
   const onCloseModal = () => {
     setIsShowModal(false);
   };
 
   const onSearch = async () => {
-    console.log("newSearch");
     const res = await pokedexAPI.getPokedex(inputRef.current.value);
     const cards = res.cards;
     pullAllBy(cards, props.myDex, "id");
     setSearchPokedex(cards);
+  };
+  const RenderMyCard = ({ card }) => {
+    const { hp, str, weak, hapiness } = statCal(card);
+    return (
+      <div className={styles.myCardContainer}>
+        <img className={styles.cardImage} src={card.imageUrl} alt={card.id} />
+        <div className={styles.cardInfo}>
+          <h3 className={styles.name}>{card.name}</h3>
+          <ProgressBar label="HP" percent={hp} />
+          <ProgressBar label="STR" percent={str} />
+          <ProgressBar label="WEAK" percent={weak} />
+          <div className={styles.hapinessContainer}>
+            {times(hapiness).map((number) => (
+              <img
+                className={styles.hapiness}
+                key={number}
+                src={cute}
+                alt={number}
+              />
+            ))}
+          </div>
+        </div>
+        <div className={styles.xContainer}>
+          <h2 onClick={onRemoveCard(card)}>X</h2>
+        </div>
+      </div>
+    );
   };
 
   const RenderSearchCard = ({ card }) => {
@@ -99,7 +128,9 @@ const Pokedex = (props) => {
         <h1>My Pokedex</h1>
       </div>
       <div className={styles.content}>
-        <h1>content</h1>
+        {props.myDex.map((card) => (
+          <RenderMyCard key={card.id} card={card} />
+        ))}
       </div>
       <div className={styles.footer}>
         <button onClick={onOpenModal}>+</button>
