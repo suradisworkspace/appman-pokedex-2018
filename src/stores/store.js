@@ -2,6 +2,13 @@ const initialState = {
   myDex: [],
 };
 
+export const action = {
+  addCard: (card) => ({
+    type: actionTypes.ADD_CARD,
+    payload: card,
+  }),
+};
+
 const actionTypes = {
   ADD_CARD: "ADD_CARD",
 };
